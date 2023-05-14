@@ -1,4 +1,4 @@
-from app.Category.Domain.Category import Category
+from app.Category.Domain import Category
 
 class CategoryCollection:
     def __init__(self, items: list[Category]):

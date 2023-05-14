@@ -1,7 +1,5 @@
 import scrapy
-
-import Category
-import CategoryCollection
+from bs4 import BeautifulSoup
 
 class Spider(scrapy.Spider):
     name = "spider"
@@ -9,17 +7,13 @@ class Spider(scrapy.Spider):
         'https://www.dia.es/compra-online/#',
     ]
 
-    def parse(self, response):
-        categoryNames = response.css('.btn-main-category::text').getall()
+    def parse(self, response) -> None:
+        self.__frescos(response=response)
         
-        categoryList = []
-       
-        for categoryName in categoryNames:
-            self.log(categoryName)
-            category = Category(categoryName, "test")
-            categoryList.append(category)
-            
-        self.log(categoryList)
-            
-           
-       
+    def __frescos(self, response) -> list:
+        frescosName = response.css('.nav-submenu > li:nth-child(3) .btn-main-category::text').get()
+        subCategoryNames = response.css('.nav-submenu > li:nth-child(3) .child-menu-frescos > .child-menu-container').getall()
+        subCategoryNamesChild = response.css('.child-menu .child-menu-container li:first-child .grandchild-menu li span::text').getall()
+        
+        self.log(subCategoryNames)
+        pass
